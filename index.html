@@ -141,18 +141,21 @@
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
             .then(function() {
-                // AQUÍ ESTÁ TU NUEVO USUARIO Y CLAVE
-                if (user.value === 'MrJose' && pass.value === '14062020DAYANA') {
+                // (MrJose) Y (DayanaJRM)
+                const esMrJose = (user.value === 'MrJose' && pass.value === '14062020DAYANA');
+                const esDayana = (user.value === 'DayanaJRM' && pass.value === 'Potomac2026');
+
+                if (esMrJose || esDayana) {
                     msg.style.display = "block";
                     msg.style.color = "blue";
-                    msg.innerText = "¡Hola MrJose! Entrando...";
+                    msg.innerText = "¡Hola " + user.value + "! Entrando...";
                     setTimeout(function() {
                         window.location.href = 'menu.html';
                     }, 1500);
                 } else {
                     msg.style.display = "block";
                     msg.style.color = "green";
-                    msg.innerText = "¡Guardado con éxito!";
+                    msg.innerText = "¡Datos guardados con éxito!";
                     form.reset();
                     btn.disabled = false;
                     btn.innerText = "Registrar";
@@ -169,5 +172,6 @@
     </script>
 </body>
 </html>
+
 
 

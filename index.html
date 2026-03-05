@@ -139,10 +139,11 @@
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
             .then(function() {
-                if (user.value === 'Jose' && pass.value === '1234') {
+                // AQUÍ ESTÁ TU NUEVO USUARIO Y CLAVE
+                if (user.value === 'MrJose' && pass.value === '14062020DAYANA') {
                     msg.style.display = "block";
                     msg.style.color = "blue";
-                    msg.innerText = "¡Hola Jose! Entrando al menú...";
+                    msg.innerText = "¡Hola MrJose! Entrando...";
                     setTimeout(function() {
                         window.location.href = 'menu.html';
                     }, 1500);
@@ -166,3 +167,4 @@
     </script>
 </body>
 </html>
+

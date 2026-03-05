@@ -2,41 +2,142 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Acceso Interno</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro - MrJose Technology</title>
     <style>
-        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; }
-        h2 { text-align: center; color: #333; }
-        .field { position: relative; margin-bottom: 20px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; }
-        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
-        .toggle-password { position: absolute; right: 10px; top: 35px; cursor: pointer; }
-        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
-        button:hover { background: #218838; }
+        :root {
+            --fondo-morado: #dcd0ff; /* Morado claro para el fondo */
+            --cuadro-rosado: #fff0f5; /* Rosado claro para el cuadro */
+            --azul-tecnologico: #87ceeb; /* Azul claro para el botón */
+            --texto-negro: #1a1a1a;
+        }
+
+        body {
+            background-color: var(--fondo-morado);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card {
+            background-color: var(--cuadro-rosado);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 360px;
+            border: 2px solid rgba(0,0,0,0.05);
+        }
+
+        h2 {
+            text-align: center;
+            color: var(--texto-negro);
+            margin-bottom: 25px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .field {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--texto-negro);
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: var(--texto-negro);
+            box-sizing: border-box;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--azul-tecnologico);
+            box-shadow: 0 0 5px rgba(135, 206, 235, 0.5);
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 38px;
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--azul-tecnologico);
+            color: var(--texto-negro); /* Letras negras como pediste */
+            border: none;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+
+        button:hover {
+            filter: brightness(0.9);
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .status-msg {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+        }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>Iniciar Sesión</h2>
-    <form id="miFormulario">
+    <h2>Tech Access</h2>
+    <form id="techForm">
         <div class="field">
             <label>Usuario</label>
-            <input type="text" name="Usuario" required>
+            <input type="text" name="Usuario" id="user" required>
         </div>
+
         <div class="field">
             <label>Contraseña</label>
             <input type="password" name="Password" id="pass" required>
             <span class="toggle-password" id="btnOjo">👁️</span>
         </div>
-        <button type="submit" id="btnEnviar">Ingresar</button>
+
+        <button type="submit" id="btnRegistrar">Registrar</button>
+        <div id="mensaje" class="status-msg"></div>
     </form>
 </div>
 
 <script>
-    const form = document.getElementById('miFormulario');
+    // Configuración del Script de Google Sheets (Pega tu URL aquí)
+    const scriptURL = 'TU_URL_DE_GOOGLE_SCRIPT_AQUI'; 
+    const form = document.getElementById('techForm');
     const btnOjo = document.getElementById('btnOjo');
     const passInput = document.getElementById('pass');
+    const msg = document.getElementById('mensaje');
 
     // Lógica del ojito
     btnOjo.addEventListener('click', () => {
@@ -45,26 +146,28 @@
         btnOjo.textContent = type === 'password' ? '👁️' : '🙈';
     });
 
-    // Enviar a Google Sheets
+    // Envío de datos
     form.addEventListener('submit', e => {
         e.preventDefault();
-        const btn = document.getElementById('btnEnviar');
+        const btn = document.getElementById('btnRegistrar');
         btn.disabled = true;
-        btn.innerText = "Enviando...";
-
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbxH87FDVAgPbIQ6uYfIlUd6SRIGiHwtYd7IXgZvWzbmihH1PF-U9HrXKM_zTlNXiU9xYA/exec';
+        btn.innerText = "Procesando...";
 
         fetch(scriptURL, { method: 'POST', body: new FormData(form)})
           .then(response => {
-              alert('Datos registrados correctamente');
+              msg.style.display = "block";
+              msg.style.color = "green";
+              msg.innerText = "¡Registro completado con éxito!";
               form.reset();
               btn.disabled = false;
-              btn.innerText = "Ingresar";
+              btn.innerText = "Registrar";
           })
           .catch(error => {
-              console.error('Error!', error.message);
-              alert('Hubo un error al guardar.');
+              msg.style.display = "block";
+              msg.style.color = "red";
+              msg.innerText = "Error en la conexión.";
               btn.disabled = false;
+              btn.innerText = "Registrar";
           });
     });
 </script>

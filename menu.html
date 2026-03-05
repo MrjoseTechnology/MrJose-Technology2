@@ -94,6 +94,43 @@
             transition: 0.3s;
         }
     </style>
+    /* ESTILOS DEL MARKETPLACE */
+        .marketplace {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 20px;
+            width: 95%;
+            max-width: 1200px;
+            margin-top: 30px;
+        }
+        .producto-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            transition: 0.3s;
+            text-align: center;
+            padding-bottom: 15px;
+        }
+        .producto-card:hover { transform: translateY(-5px); }
+        .producto-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background: #eee;
+        }
+        .producto-titulo { font-weight: bold; font-size: 1.1rem; margin: 10px 0; color: var(--texto-negro); }
+        .producto-precio { color: #2ecc71; font-size: 1.2rem; font-weight: bold; margin-bottom: 10px; }
+        .btn-comprar {
+            background: var(--azul-claro);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
 </head>
 <body>
     <div class="navbar">
@@ -106,7 +143,24 @@
         <div class="menu-card">
             <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" class="logo-menu">
             <h1>Bienvenido MrJose</h1>
-            
+            <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin-top: 40px;">🛒 NUESTRO CATÁLOGO</h2>
+    <div class="marketplace">
+        
+        <div class="producto-card">
+            <img src="https://via.placeholder.com/300x200?text=Producto+1" class="producto-img">
+            <div class="producto-titulo">Mantenimiento PC</div>
+            <div class="producto-precio">$50.000</div>
+            <a href="https://wa.me/573113330182?text=Hola!+Me+interesa+el+Mantenimiento+PC" class="btn-comprar">Consultar</a>
+        </div>
+
+        <div class="producto-card">
+            <img src="https://via.placeholder.com/300x200?text=Producto+2" class="producto-img">
+            <div class="producto-titulo">Instalación Windows</div>
+            <div class="producto-precio">$40.000</div>
+            <a href="https://wa.me/573113330182?text=Hola!+Me+interesa+la+Instalacion+Windows" class="btn-comprar">Consultar</a>
+        </div>
+
+    </div>
             <div class="dev-badge">
                 ⚠️ PAGINA EN DESARROLLO
             </div>

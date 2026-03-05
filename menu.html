@@ -205,7 +205,7 @@
             </div>
         </div>
 
-        <div id="miModal" class="modal">
+       <div id="miModal" class="modal">
             <div class="modal-content">
                 <span class="cerrar-modal" onclick="cerrarDetalle()">&times;</span>
                 <div class="modal-izq">
@@ -219,20 +219,8 @@
                 </div>
             </div>
         </div>
-</body>
-    <script>
-    function mostrarCatalogo() {
-        var x = document.getElementById("seccion-catalogo");
-        if (x.style.display === "none") {
-            x.style.display = "grid";
-            // Opcional: Desplazar la vista hacia abajo automáticamente
-            x.scrollIntoView({ behavior: 'smooth' });
-        } else {
-            x.style.display = "none";
-        }
-    }
-</script>
-    <script>
+    </div> <script>
+        // 1. FUNCIONES DE NAVEGACIÓN
         function verCatalogo() {
             document.getElementById("seccion-catalogo").style.display = "block";
             document.getElementById("seccion-inicio").style.display = "none";
@@ -242,55 +230,47 @@
             document.getElementById("seccion-inicio").style.display = "block";
             document.getElementById("seccion-catalogo").style.display = "none";
         }
+
+        // 2. BASE DE DATOS DE PRODUCTOS
         const productos = {
-    'mante': {
-        titulo: 'Mantenimiento de PC',
-        precio: '$50.000',
-        img: 'https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Mantenimiento%20de%20computadora.png',
-        desc: `¿Sientes que tu compu va a despegar cada vez que la enciendes? ¡Es hora de un "spa" tecnológico!
-               ✅ Limpieza Preventiva: Adiós al polvo y al ruido.
-               ✅ Limpieza Lógica: Espacio libre y mayor velocidad de arranque.
-               ✅ Protección: Instalación de herramientas para navegar seguro.
-               ¡No compres una nueva, mejora la que tienes! Agenda tu cita hoy y recíbela el mismo día.`,
-        link: 'https://wa.me/573113330182?text=Me+interesa+el+Mantenimiento+PC'
-    },
-    'win': {
-        titulo: 'Instalación de Windows',
-        precio: '$40.000',
-        img: 'https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/instalacion%20de%20windows.png',
-        desc: `No dejes que un sistema operativo desactualizado ponga en riesgo tu seguridad o ralentice tu día. Optimizamos tu hardware actual para que soporte la versión más reciente de Windows de forma fluida.
-               
-               ¿Qué nos diferencia?
-               🚀 Optimización Post-Instalación: Desactivamos servicios innecesarios.
-               🔑 Licencia Original: Te asesoramos en la activación legal.
-               💻 Asesoría de Hardware: ¡Si necesitas un SSD te lo decimos!`,
-        link: 'https://wa.me/573113330182?text=Me+interesa+la+Instalacion+de+Windows'
-    }
-};
+            'mante': {
+                titulo: 'Mantenimiento de PC',
+                precio: '$50.000',
+                img: 'https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Mantenimiento%20de%20computadora.png',
+                desc: `¿Sientes que tu compu va a despegar cada vez que la enciendes? ¡Es hora de un "spa" tecnológico!\n\n✅ Limpieza Preventiva: Adiós al polvo y al ruido.\n✅ Limpieza Lógica: Espacio libre y mayor velocidad de arranque.\n✅ Protección: Instalación de herramientas para navegar seguro.\n\n¡No compres una nueva, mejora la que tienes! Agenda tu cita hoy y recíbela el mismo día.`,
+                link: 'https://wa.me/573113330182?text=Me+interesa+el+Mantenimiento+PC'
+            },
+            'win': {
+                titulo: 'Instalación de Windows',
+                precio: '$40.000',
+                img: 'https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/instalacion%20de%20windows.png',
+                desc: `No dejes que un sistema operativo desactualizado ponga en riesgo tu seguridad o ralentice tu día. Optimizamos tu hardware actual para que soporte la versión más reciente de Windows de forma fluida.\n\n¿Qué nos diferencia?\n\n🚀 Optimización Post-Instalación: Desactivamos servicios innecesarios.\n🔑 Licencia Original: Te asesoramos en la activación legal.\n💻 Asesoría de Hardware: ¡Si necesitas un SSD te lo decimos!`,
+                link: 'https://wa.me/573113330182?text=Me+interesa+la+Instalacion+de+Windows'
+            }
+        };
 
-function abrirDetalle(id) {
-    const p = productos[id];
-    document.getElementById('modalTitle').innerText = p.titulo;
-    document.getElementById('modalDesc').innerText = p.desc;
-    document.getElementById('modalPrice').innerText = p.precio;
-    document.getElementById('modalImg').src = p.img;
-    document.getElementById('modalWA').href = p.link;
-    document.getElementById('miModal').style.display = "block";
-}
+        // 3. FUNCIONES DEL MODAL
+        function abrirDetalle(id) {
+            const p = productos[id];
+            document.getElementById('modalTitle').innerText = p.titulo;
+            document.getElementById('modalDesc').innerText = p.desc;
+            document.getElementById('modalPrice').innerText = p.precio;
+            document.getElementById('modalImg').src = p.img;
+            document.getElementById('modalWA').href = p.link;
+            document.getElementById('miModal').style.display = "block";
+        }
 
-function cerrarDetalle() {
-    document.getElementById('miModal').style.display = "none";
-}
+        function cerrarDetalle() {
+            document.getElementById('miModal').style.display = "none";
+        }
 
-// Las funciones de antes para navegar
-function verCatalogo() {
-    document.getElementById("seccion-catalogo").style.display = "block";
-    document.getElementById("seccion-inicio").style.display = "none";
-}
-function verInicio() {
-    document.getElementById("seccion-inicio").style.display = "block";
-    document.getElementById("seccion-catalogo").style.display = "none";
-}
+        // Cierra el modal si haces clic afuera de la caja blanca
+        window.onclick = function(event) {
+            var modal = document.getElementById("miModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
     </script>
-    
+</body>
 </html>

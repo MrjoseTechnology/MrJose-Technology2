@@ -6,14 +6,12 @@
     <title>Registro - MrJose Technology</title>
     <style>
         :root {
-            --fondo-morado: #dcd0ff; 
             --cuadro-rosado: #fff0f5; 
-            --azul-tecnologico: #87ceeb; 
+            --boton-rosado: #ffb6c1; /* Rosado para el botón */
             --texto-negro: #1a1a1a;
         }
 
         body {
-            /* Imagen de fondo configurada */
             background-image: url('https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Fondo.jpg');
             background-size: cover;
             background-position: center;
@@ -26,7 +24,6 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
-        /* Efecto de brillo sutil al cuadro para que resalte del fondo */
         .card {
             background-color: var(--cuadro-rosado);
             padding: 30px;
@@ -34,33 +31,27 @@
             box-shadow: 0 10px 30px rgba(0,0,0,0.3);
             width: 90%;
             max-width: 350px;
-            border: 1px solid rgba(255,255,255,0.5);
-            backdrop-filter: blur(5px); /* Un ligero desenfoque para estilo moderno */
-        }
-
-        .logo-container {
             text-align: center;
-            margin-bottom: 15px;
         }
 
         .logo-img {
-            width: 100px; /* Tamaño del logo */
+            width: 100px;
             height: 100px;
-            border-radius: 50%; /* Lo hace circular */
+            border-radius: 50%;
             object-fit: cover;
-            border: 3px solid var(--azul-tecnologico);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 3px solid #87ceeb;
+            margin-bottom: 10px;
         }
 
         h2 {
-            text-align: center;
             color: var(--texto-negro);
             margin-bottom: 20px;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
         }
 
         .field {
+            text-align: left;
             margin-bottom: 15px;
             position: relative;
         }
@@ -92,7 +83,7 @@
         button {
             width: 100%;
             padding: 15px;
-            background-color: var(--azul-tecnologico);
+            background-color: var(--boton-rosado);
             color: var(--texto-negro);
             border: none;
             border-radius: 8px;
@@ -101,16 +92,21 @@
             cursor: pointer;
             transition: 0.3s;
             text-transform: uppercase;
+            margin-top: 10px;
         }
 
         button:hover {
-            filter: brightness(1.1);
-            transform: scale(1.02);
+            filter: brightness(0.9);
+        }
+
+        .footer-text {
+            font-size: 10px;
+            color: #666;
+            margin-top: 20px;
         }
 
         .status-msg {
-            text-align: center;
-            margin-top: 15px;
+            margin-top: 10px;
             font-weight: bold;
             display: none;
         }
@@ -119,10 +115,71 @@
 <body>
 
 <div class="card">
-    <div class="logo-container">
-        <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" alt="Logo Tech" class="logo-img">
-    </div>
+    <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" alt="Logo" class="logo-img">
     
-    <h2>MrJose Technology</h2>
+    <h2>Registro de usuario</h2>
     
     <form id="techForm">
+        <div class="field">
+            <label>Usuario</label>
+            <input type="text" name="Usuario" placeholder="Escribe tu usuario" required>
+        </div>
+
+        <div class="field">
+            <label>Contraseña</label>
+            <input type="password" name="Password" id="pass" placeholder="Escribe tu contraseña" required>
+            <span class="toggle-password" id="btnOjo">👁️</span>
+        </div>
+
+        <button type="submit" id="btnRegistrar">Registrar</button>
+        
+        <div id="mensaje" class="status-msg"></div>
+        
+        <div class="footer-text">bienvenido a mi pagina</div>
+    </form>
+</div>
+
+<script>
+    // RECUERDA: Pega aquí tu URL de Google Apps Script para que se guarden los datos
+    const scriptURL = 'TU_URL_DE_GOOGLE_SCRIPT_AQUI'; 
+    
+    const form = document.getElementById('techForm');
+    const passInput = document.getElementById('pass');
+    const btnOjo = document.getElementById('btnOjo');
+    const msg = document.getElementById('mensaje');
+
+    // Lógica para ver/ocultar contraseña
+    btnOjo.addEventListener('click', () => {
+        const type = passInput.type === 'password' ? 'text' : 'password';
+        passInput.type = type;
+        btnOjo.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+
+    // Envío de datos a Google Sheets
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const btn = document.getElementById('btnRegistrar');
+        btn.disabled = true;
+        btn.innerText = "Registrando...";
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => {
+              msg.style.display = "block";
+              msg.style.color = "green";
+              msg.innerText = "¡Datos guardados con éxito!";
+              form.reset();
+              btn.disabled = false;
+              btn.innerText = "Registrar";
+          })
+          .catch(error => {
+              msg.style.display = "block";
+              msg.style.color = "red";
+              msg.innerText = "Error al guardar los datos.";
+              btn.disabled = false;
+              btn.innerText = "Registrar";
+          });
+    });
+</script>
+
+</body>
+</html>

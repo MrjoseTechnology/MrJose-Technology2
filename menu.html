@@ -205,7 +205,7 @@
             </div>
         </div>
 
-       <div id="miModal" class="modal">
+        <div id="miModal" class="modal">
             <div class="modal-content">
                 <span class="cerrar-modal" onclick="cerrarDetalle()">&times;</span>
                 <div class="modal-izq">
@@ -220,7 +220,7 @@
             </div>
         </div>
     </div> <script>
-        // 1. FUNCIONES DE NAVEGACIÓN
+        // 1. NAVEGACIÓN
         function verCatalogo() {
             document.getElementById("seccion-catalogo").style.display = "block";
             document.getElementById("seccion-inicio").style.display = "none";
@@ -264,7 +264,7 @@
             document.getElementById('miModal').style.display = "none";
         }
 
-        // Cierra el modal si haces clic afuera de la caja blanca
+        // Cierra el modal al hacer clic fuera de la caja blanca
         window.onclick = function(event) {
             var modal = document.getElementById("miModal");
             if (event.target == modal) {

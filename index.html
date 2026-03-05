@@ -7,8 +7,9 @@
     <style>
         :root {
             --cuadro-rosado: #fff0f5; 
-            --boton-rosado: #ffb6c1; /* Rosado para el botón */
+            --boton-rosado: #ffb6c1; 
             --texto-negro: #1a1a1a;
+            --whatsapp-color: #25d366;
         }
 
         body {
@@ -105,6 +106,31 @@
             margin-top: 20px;
         }
 
+        /* BOTÓN WHATSAPP FLOTANTE */
+        .btn-whatsapp {
+            position: fixed;
+            width: 60px;
+            height: 60px;
+            bottom: 20px;
+            right: 20px;
+            background-color: var(--whatsapp-color);
+            color: #FFF;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 30px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.2);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            transition: transform 0.3s;
+        }
+
+        .btn-whatsapp:hover {
+            transform: scale(1.1);
+        }
+
         .status-msg {
             margin-top: 10px;
             font-weight: bold;
@@ -139,48 +165,5 @@
     </form>
 </div>
 
-<script>
-    // RECUERDA: Pega aquí tu URL de Google Apps Script para que se guarden los datos
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxH87FDVAgPbIQ6uYfIlUd6SRIGiHwtYd7IXgZvWzbmihH1PF-U9HrXKM_zTlNXiU9xYA/exec'; 
-    
-    const form = document.getElementById('techForm');
-    const passInput = document.getElementById('pass');
-    const btnOjo = document.getElementById('btnOjo');
-    const msg = document.getElementById('mensaje');
-
-    // Lógica para ver/ocultar contraseña
-    btnOjo.addEventListener('click', () => {
-        const type = passInput.type === 'password' ? 'text' : 'password';
-        passInput.type = type;
-        btnOjo.textContent = type === 'password' ? '👁️' : '🙈';
-    });
-
-    // Envío de datos a Google Sheets
-    form.addEventListener('submit', e => {
-        e.preventDefault();
-        const btn = document.getElementById('btnRegistrar');
-        btn.disabled = true;
-        btn.innerText = "Registrando...";
-
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-          .then(response => {
-              msg.style.display = "block";
-              msg.style.color = "green";
-              msg.innerText = "¡Datos guardados con éxito!";
-              form.reset();
-              btn.disabled = false;
-              btn.innerText = "Registrar";
-          })
-          .catch(error => {
-              msg.style.display = "block";
-              msg.style.color = "red";
-              msg.innerText = "Error al guardar los datos.";
-              btn.disabled = false;
-              btn.innerText = "Registrar";
-          });
-    });
-</script>
-
-</body>
-</html>
-
+<a href="https://wa.me/573113330182?text=Hola%20Jose,%20necesito%20ayuda%20con%20el%20registro" class="btn-whatsapp" target="_blank">
+    <svg width="35" height="35" fill="currentColor" viewBox="0 0 16 16">

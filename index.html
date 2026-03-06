@@ -90,7 +90,9 @@
             z-index: 100;
         }
         .status-msg {
-            margin-top: 10px;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
             font-weight: bold;
             display: none;
         }
@@ -110,70 +112,73 @@
                 <input type="password" name="Password" id="passInput" required>
                 <span class="toggle-password" id="btnOjo">👁️</span>
             </div>
-            <button type="submit" id="btnRegistrar">Registrar</button>
+            <button type="submit" id="btnRegistrar">Registrar / Entrar</button>
             <div id="mensaje" class="status-msg"></div>
             <div style="font-size: 10px; margin-top: 20px; color: #666;">bienvenido a mi pagina</div>
         </form>
     </div>
+
     <a href="https://wa.me/573113330182" class="btn-wa" target="_blank">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:100%">
     </a>
+
     <script>
+        // USA TU URL DE GOOGLE AQUÍ
         const scriptURL = 'https://script.google.com/macros/s/AKfycbwrv-Dl3VToGTBPVjFSwiErbijNkudSBpEreP0ykAsuiA5fFHBXpcysEOhE6hsbiV6Mog/exec';
+        
         const form = document.getElementById('techForm');
         const pass = document.getElementById('passInput');
         const user = document.getElementById('userInput');
         const msg = document.getElementById('mensaje');
+        const btn = document.getElementById('btnRegistrar');
 
+        // Función para ver/ocultar contraseña
         document.getElementById('btnOjo').onclick = function() {
-            if (pass.type === 'password') {
-                pass.type = 'text';
-            } else {
-                pass.type = 'password';
-            }
+            pass.type = (pass.type === 'password') ? 'text' : 'password';
         };
 
         form.onsubmit = function(e) {
             e.preventDefault();
-            const btn = document.getElementById('btnRegistrar');
+            
             btn.disabled = true;
             btn.innerText = "Procesando...";
+            msg.style.display = "none";
 
+            // Enviamos los datos a Google
             fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-            .then(function() {
-                // (MrJose) Y (DayanaJRM)
+            .then(response => response.json()) // Leemos la respuesta JSON corregida
+            .then(data => {
+                // Verificamos si es un administrador
                 const esMrJose = (user.value === 'MrJose' && pass.value === '14062020DAYANA');
                 const esDayana = (user.value === 'DayanaJRM' && pass.value === 'Potomac2026');
 
+                msg.style.display = "block";
+
                 if (esMrJose || esDayana) {
-                    msg.style.display = "block";
                     msg.style.color = "blue";
-                    msg.innerText = "¡Hola " + user.value + "! Entrando...";
-                    setTimeout(function() {
-                        window.location.href = 'menu.html';
-                    }, 1500);
+                    msg.style.backgroundColor = "#e7f3ff";
+                    msg.innerText = "¡Hola " + user.value + "! Entrando al panel...";
+                    setTimeout(() => { window.location.href = 'menu.html'; }, 1500);
                 } else {
-                    msg.style.display = "block";
+                    // Si no es admin, solo confirma el registro
                     msg.style.color = "green";
-                    msg.innerText = "¡Datos guardados con éxito!";
+                    msg.style.backgroundColor = "#e7ffe7";
+                    msg.innerText = "✨ ¡Datos guardados con éxito!";
                     form.reset();
                     btn.disabled = false;
-                    btn.innerText = "Registrar";
+                    btn.innerText = "Registrar / Entrar";
                 }
             })
-            .catch(function() {
+            .catch(error => {
+                console.error("Error:", error);
                 msg.style.display = "block";
                 msg.style.color = "red";
-                msg.innerText = "Error de conexión";
+                msg.style.backgroundColor = "#ffe7e7";
+                msg.innerText = "Error de conexión. Revisa el Wi-Fi.";
                 btn.disabled = false;
-                btn.innerText = "Registrar";
+                btn.innerText = "Registrar / Entrar";
             });
         };
     </script>
 </body>
 </html>
-
-
-
-
-

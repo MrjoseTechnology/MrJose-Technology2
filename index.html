@@ -144,94 +144,86 @@
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:100%">
     </a>
 
-    <script>
-        // USA TU URL DE GOOGLE AQUÍ
-        const scriptURL = 'https://script.google.com/macros/s/AKfycbwBm5n2o14oqbKKnLZ7QHKlJrgocFEhhh0a6vb5JElmue1TUn8L7yGu_aKi87fdZ_dOjA/exec';
-        
-        const form = document.getElementById('techForm');
-        const pass = document.getElementById('passInput');
-        const user = document.getElementById('userInput');
-        const msg = document.getElementById('mensaje');
-        const btn = document.getElementById('btnRegistrar');
+   <script>
+    // URL DE TU GOOGLE APPS SCRIPT
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwBm5n2o14oqbKKnLZ7QHKlJrgocFEhhh0a6vb5JElmue1TUn8L7yGu_aKi87fdZ_dOjA/exec';
+    
+    // 1. LÓGICA PARA INICIAR SESIÓN (Formulario Login)
+    const loginForm = document.getElementById('loginForm');
+    if (loginForm) {
+        loginForm.onsubmit = function(e) {
+            e.preventDefault();
+            const user = document.getElementById('logUser').value;
+            const pass = document.getElementById('logPass').value;
+            const btn = document.getElementById('btnEntrar');
+            const msg = document.getElementById('mensaje');
 
-        // Función para ver/ocultar contraseña
-        document.getElementById('btnOjo').onclick = function() {
-            pass.type = (pass.type === 'password') ? 'text' : 'password';
+            btn.disabled = true;
+            btn.innerText = "Verificando...";
+
+            fetch(scriptURL + "?Usuario=" + encodeURIComponent(user) + "&Password=" + encodeURIComponent(pass))
+            .then(response => response.json())
+            .then(data => {
+                if (data.result === "success") {
+                    alert("¡Bienvenido " + user + "!");
+                    window.location.href = 'menu.html';
+                } else {
+                    alert("Usuario o contraseña incorrectos");
+                    btn.disabled = false;
+                    btn.innerText = "Entrar";
+                }
+            })
+            .catch(error => {
+                console.error("Error:", error);
+                alert("Error de conexión con la base de datos");
+                btn.disabled = false;
+                btn.innerText = "Entrar";
+            });
         };
+    }
 
-        // 1. LÓGICA PARA INICIAR SESIÓN (Botón Entrar)
-document.getElementById('loginForm').onsubmit = function(e) {
-    e.preventDefault();
-    const user = document.getElementById('logUser').value;
-    const pass = document.getElementById('logPass').value;
-    const btn = document.getElementById('btnEntrar');
-    const msg = document.getElementById('mensaje');
+    // 2. LÓGICA PARA REGISTRARSE (Formulario Registro)
+    const regForm = document.getElementById('regForm');
+    if (regForm) {
+        regForm.onsubmit = function(e) {
+            e.preventDefault();
+            const user = document.getElementById('regUser').value;
+            const pass = document.getElementById('regPass').value;
+            const btn = document.getElementById('btnCrear');
 
-    btn.disabled = true;
-    btn.innerText = "Verificando...";
+            btn.disabled = true;
+            btn.innerText = "Guardando...";
 
-    // Consultamos al Excel si el usuario existe (GET)
-    fetch(scriptURL + "?Usuario=" + encodeURIComponent(user) + "&Password=" + encodeURIComponent(pass))
-    .then(response => response.json())
-    .then(data => {
-        if (data.result === "success") {
-            msg.style.display = "block";
-            msg.style.color = "blue";
-            msg.innerText = "¡Hola " + user + "! Entrando...";
-            setTimeout(() => { window.location.href = 'menu.html'; }, 1500);
-        } else {
-            alert("Usuario o contraseña incorrectos");
-            btn.disabled = false;
-            btn.innerText = "Entrar";
-        }
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        btn.disabled = false;
-        btn.innerText = "Entrar";
-    });
-};
+            let formData = new FormData();
+            formData.append("Usuario", user);
+            formData.append("Password", pass);
 
-// 2. LÓGICA PARA REGISTRARSE (Botón Registrarse)
-document.getElementById('regForm').onsubmit = function(e) {
-    e.preventDefault();
-    const user = document.getElementById('regUser').value;
-    const pass = document.getElementById('regPass').value;
-    const btn = document.getElementById('btnCrear');
+            fetch(scriptURL, { method: 'POST', body: formData })
+            .then(response => response.json())
+            .then(data => {
+                alert("✨ ¡Cuenta creada con éxito! Ya puedes iniciar sesión.");
+                mostrarLogin();
+                btn.disabled = false;
+                btn.innerText = "Registrarse";
+            })
+            .catch(error => {
+                alert("Error al registrar: " + error);
+                btn.disabled = false;
+                btn.innerText = "Registrarse";
+            });
+        };
+    }
 
-    btn.disabled = true;
-    btn.innerText = "Guardando...";
+    // 3. FUNCIONES PARA CAMBIAR DE VISTA
+    function mostrarRegistro() {
+        document.getElementById('seccion-login').style.display = 'none';
+        document.getElementById('seccion-registro').style.display = 'block';
+    }
 
-    // Enviamos los datos para crear nueva fila (POST)
-    let formData = new FormData();
-    formData.append("Usuario", user);
-    formData.append("Password", pass);
-
-    fetch(scriptURL, { method: 'POST', body: formData })
-    .then(response => response.json())
-    .then(data => {
-        alert("✨ ¡Cuenta creada con éxito! Ahora ya puedes iniciar sesión.");
-        mostrarLogin(); // Esta función oculta el registro y muestra el login
-        btn.disabled = false;
-        btn.innerText = "Registrarse";
-    })
-    .catch(error => {
-        alert("Error al registrar: " + error);
-        btn.disabled = false;
-        btn.innerText = "Registrarse";
-    });
-};
-
-// Funciones para cambiar de vista (IMPORTANTE)
-function mostrarRegistro() {
-    document.getElementById('seccion-login').style.display = 'none';
-    document.getElementById('seccion-registro').style.display = 'block';
-}
-
-function mostrarLogin() {
-    document.getElementById('seccion-registro').style.display = 'none';
-    document.getElementById('seccion-login').style.display = 'block';
-}
-    </script>
+    function mostrarLogin() {
+        document.getElementById('seccion-registro').style.display = 'none';
+        document.getElementById('seccion-login').style.display = 'block';
+    }
+</script>
 </body>
 </html>

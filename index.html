@@ -247,18 +247,27 @@
         document.getElementById('seccion-login').style.display = 'none';
         document.getElementById('seccion-registro').style.display = 'block';
     }
+// --- FUNCIONES DE NAVEGACIÓN (PEGAR AQUÍ) ---
 
-    function mostrarLogin() {
-        document.getElementById('seccion-registro').style.display = 'none';
-        document.getElementById('seccion-login').style.display = 'block';
-    }
 function mostrarRegistro() {
-    document.getElementById('seccion-login').style.display = 'none';
-    document.getElementById('seccion-registro').style.display = 'block';
+    const loginSec = document.getElementById('seccion-login');
+    const regSec = document.getElementById('seccion-registro');
     const msg = document.getElementById('mensaje');
-    if(msg) msg.style.display = 'none';
+
+    if (loginSec) loginSec.style.display = 'none';
+    if (regSec) regSec.style.display = 'block';
+    if (msg) msg.style.display = 'none';
 }
 
+function mostrarLogin() {
+    const loginSec = document.getElementById('seccion-login');
+    const regSec = document.getElementById('seccion-registro');
+    const msg = document.getElementById('mensaje');
+
+    if (regSec) regSec.style.display = 'none';
+    if (loginSec) loginSec.style.display = 'block';
+    if (msg) msg.style.display = 'none';
+}
 function mostrarLogin() {
     document.getElementById('seccion-registro').style.display = 'none';
     document.getElementById('seccion-login').style.display = 'block';

@@ -144,6 +144,7 @@
     <a href="https://wa.me/573113330182" class="btn-wa" target="_blank">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:100%">
     </a>
+    
 
    <script>
     // URL DE TU GOOGLE APPS SCRIPT
@@ -194,6 +195,7 @@
             });
         };
     }
+       
 
     // 2. LÓGICA PARA REGISTRARSE (Formulario Registro)
     const regForm = document.getElementById('regForm');
@@ -250,6 +252,19 @@
         document.getElementById('seccion-registro').style.display = 'none';
         document.getElementById('seccion-login').style.display = 'block';
     }
+function mostrarRegistro() {
+    document.getElementById('seccion-login').style.display = 'none';
+    document.getElementById('seccion-registro').style.display = 'block';
+    const msg = document.getElementById('mensaje');
+    if(msg) msg.style.display = 'none';
+}
+
+function mostrarLogin() {
+    document.getElementById('seccion-registro').style.display = 'none';
+    document.getElementById('seccion-login').style.display = 'block';
+    const msg = document.getElementById('mensaje');
+    if(msg) msg.style.display = 'none';
+}
 </script>
 </body>
 </html>

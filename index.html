@@ -213,19 +213,32 @@
 
             fetch(scriptURL, { method: 'POST', body: formData })
             .then(response => response.json())
-            .then(data => {
-                alert("✨ ¡Cuenta creada con éxito! Ya puedes iniciar sesión.");
-                mostrarLogin();
-                btn.disabled = false;
-                btn.innerText = "Registrarse";
-            })
-            .catch(error => {
-                alert("Error al registrar: " + error);
-                btn.disabled = false;
-                btn.innerText = "Registrarse";
-            });
-        };
-    }
+    .then(data => {
+        const msg = document.getElementById('mensaje'); // Usamos el mismo div de la línea 141
+
+        // Mensaje de éxito en pantalla
+        msg.innerText = "✨ ¡Cuenta creada con éxito! Ya puedes iniciar sesión.";
+        msg.style.display = "block";
+        msg.style.color = "#00f2ff"; // Un color cian/celeste para diferenciarlo del login
+        msg.style.textAlign = "center";
+
+        // Esperamos 2 segundos para que lea y luego lo mandamos al login
+        setTimeout(() => {
+            mostrarLogin(); // Esta es la función que oculta el registro y muestra el login
+            msg.style.display = "none"; // Limpiamos el mensaje para el login
+            btn.disabled = false;
+            btn.innerText = "Registrarse";
+        }, 2500);
+    })
+    .catch(error => {
+        const msg = document.getElementById('mensaje');
+        msg.innerText = "❌ Error al registrar: " + error;
+        msg.style.display = "block";
+        msg.style.color = "red";
+        
+        btn.disabled = false;
+        btn.innerText = "Registrarse";
+    });
 
     // 3. FUNCIONES PARA CAMBIAR DE VISTA
     function mostrarRegistro() {

@@ -147,10 +147,24 @@
     
 
    <script>
-    // URL DE TU GOOGLE APPS SCRIPT
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbwBm5n2o14oqbKKnLZ7QHKlJrgocFEhhh0a6vb5JElmue1TUn8L7yGu_aKi87fdZ_dOjA/exec';
-    
-    // 1. LÓGICA PARA INICIAR SESIÓN (Formulario Login)
+    // 1. CONFIGURACIÓN INICIAL
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbwBm5n2o14oqbkKnLZ7QHK1JrgoceFehhh0a6vb5JElmue1TUn8L7yGu_aKi87fdZ_dOjA/exec';
+    const msg = document.getElementById('mensaje');
+
+    // 2. FUNCIONES PARA CAMBIAR DE VISTA
+    function mostrarRegistro() {
+        document.getElementById('seccion-login').style.display = 'none';
+        document.getElementById('seccion-registro').style.display = 'block';
+        if(msg) msg.style.display = 'none';
+    }
+
+    function mostrarLogin() {
+        document.getElementById('seccion-registro').style.display = 'none';
+        document.getElementById('seccion-login').style.display = 'block';
+        if(msg) msg.style.display = 'none';
+    }
+
+    // 3. LÓGICA DE LOGIN
     const loginForm = document.getElementById('loginForm');
     if (loginForm) {
         loginForm.onsubmit = function(e) {
@@ -158,46 +172,36 @@
             const user = document.getElementById('logUser').value;
             const pass = document.getElementById('logPass').value;
             const btn = document.getElementById('btnEntrar');
-            const msg = document.getElementById('mensaje');
 
             btn.disabled = true;
-            btn.innerText = "Verificando...";
+            btn.innerText = "Entrando...";
 
             fetch(scriptURL + "?Usuario=" + encodeURIComponent(user) + "&Password=" + encodeURIComponent(pass))
-            .then(response => response.json())
-            .then(data => {
-                if (data.result === "success") {
-            const msg = document.getElementById('mensaje'); // El ID de la línea 141
-            msg.innerText = "¡Bienvenido " + user + "! Entrando...";
-            msg.style.display = "block";
-            msg.style.color = "#00ff00"; // Verde
-            msg.style.textAlign = "center";
-
-            setTimeout(() => { 
-                window.location.href = 'menu.html'; 
-            }, 1500);
-        } else {
-            const msg = document.getElementById('mensaje');
-            msg.innerText = "❌ Usuario o contraseña incorrectos";
-            msg.style.display = "block";
-            msg.style.color = "#ff4d4d"; // Rojo
-            msg.style.textAlign = "center";
-            
-            btn.disabled = false;
-            btn.innerText = "Entrar";
-        }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                alert("Error de conexión con la base de datos");
-                btn.disabled = false;
-                btn.innerText = "Entrar";
-            });
+                .then(response => response.json())
+                .then(data => {
+                    if (data.result === "success") {
+                        msg.innerText = "¡Bienvenido " + user + "! Entrando...";
+                        msg.style.display = "block";
+                        msg.style.color = "#00ff00";
+                        setTimeout(() => { window.location.href = 'menu.html'; }, 1500);
+                    } else {
+                        msg.innerText = "❌ Usuario o contraseña incorrectos";
+                        msg.style.display = "block";
+                        msg.style.color = "#ff4d4d";
+                        btn.disabled = false;
+                        btn.innerText = "Entrar";
+                    }
+                })
+                .catch(error => {
+                    msg.innerText = "Error de conexión";
+                    msg.style.display = "block";
+                    btn.disabled = false;
+                    btn.innerText = "Entrar";
+                });
         };
     }
-       
 
-    // 2. LÓGICA PARA REGISTRARSE (Formulario Registro)
+    // 4. LÓGICA DE REGISTRO
     const regForm = document.getElementById('regForm');
     if (regForm) {
         regForm.onsubmit = function(e) {
@@ -214,66 +218,24 @@
             formData.append("Password", pass);
 
             fetch(scriptURL, { method: 'POST', body: formData })
-            .then(response => response.json())
-    .then(data => {
-        const msg = document.getElementById('mensaje'); // Usamos el mismo div de la línea 141
-
-        // Mensaje de éxito en pantalla
-        msg.innerText = "✨ ¡Cuenta creada con éxito! Ya puedes iniciar sesión.";
-        msg.style.display = "block";
-        msg.style.color = "#00f2ff"; // Un color cian/celeste para diferenciarlo del login
-        msg.style.textAlign = "center";
-
-        // Esperamos 2 segundos para que lea y luego lo mandamos al login
-        setTimeout(() => {
-            mostrarLogin(); // Esta es la función que oculta el registro y muestra el login
-            msg.style.display = "none"; // Limpiamos el mensaje para el login
-            btn.disabled = false;
-            btn.innerText = "Registrarse";
-        }, 2500);
-    })
-    .catch(error => {
-        const msg = document.getElementById('mensaje');
-        msg.innerText = "❌ Error al registrar: " + error;
-        msg.style.display = "block";
-        msg.style.color = "red";
-        
-        btn.disabled = false;
-        btn.innerText = "Registrarse";
-    });
-
-    // 3. FUNCIONES PARA CAMBIAR DE VISTA
-    function mostrarRegistro() {
-        document.getElementById('seccion-login').style.display = 'none';
-        document.getElementById('seccion-registro').style.display = 'block';
+                .then(response => response.json())
+                .then(data => {
+                    msg.innerText = "✨ ¡Cuenta creada! Ya puedes iniciar sesión.";
+                    msg.style.display = "block";
+                    msg.style.color = "#00f2ff";
+                    setTimeout(() => { 
+                        mostrarLogin();
+                        btn.disabled = false;
+                        btn.innerText = "Registrarse";
+                    }, 2500);
+                })
+                .catch(error => {
+                    msg.innerText = "Error al registrar";
+                    msg.style.display = "block";
+                    btn.disabled = false;
+                });
+        };
     }
-// --- FUNCIONES DE NAVEGACIÓN (PEGAR AQUÍ) ---
-
-function mostrarRegistro() {
-    const loginSec = document.getElementById('seccion-login');
-    const regSec = document.getElementById('seccion-registro');
-    const msg = document.getElementById('mensaje');
-
-    if (loginSec) loginSec.style.display = 'none';
-    if (regSec) regSec.style.display = 'block';
-    if (msg) msg.style.display = 'none';
-}
-
-function mostrarLogin() {
-    const loginSec = document.getElementById('seccion-login');
-    const regSec = document.getElementById('seccion-registro');
-    const msg = document.getElementById('mensaje');
-
-    if (regSec) regSec.style.display = 'none';
-    if (loginSec) loginSec.style.display = 'block';
-    if (msg) msg.style.display = 'none';
-}
-function mostrarLogin() {
-    document.getElementById('seccion-registro').style.display = 'none';
-    document.getElementById('seccion-login').style.display = 'block';
-    const msg = document.getElementById('mensaje');
-    if(msg) msg.style.display = 'none';
-}
 </script>
 </body>
 </html>

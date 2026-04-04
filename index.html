@@ -100,24 +100,46 @@
 </head>
 <body>
     <div class="card">
-        <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" class="logo-img">
-        <h2>Registro de usuario</h2>
-        <form id="techForm">
+    <img src="https://raw.githubusercontent.com/MrjoseTechnology/MrJose-Technology2/main/Logo%20empresa%20pagina.jpg" class="logo-img">
+    
+    <div id="seccion-login">
+        <h2>Iniciar Sesión</h2>
+        <form id="loginForm">
             <div class="field">
                 <label>Usuario</label>
-                <input type="text" id="userInput" name="Usuario" required>
+                <input type="text" id="logUser" required>
             </div>
             <div class="field">
                 <label>Contraseña</label>
-                <input type="password" name="Password" id="passInput" required>
-                <span class="toggle-password" id="btnOjo">👁️</span>
+                <input type="password" id="logPass" required>
             </div>
-            <button type="submit" id="btnRegistrar">Registrar / Entrar</button>
-            <div id="mensaje" class="status-msg"></div>
-            <div style="font-size: 10px; margin-top: 20px; color: #666;">bienvenido a mi pagina</div>
+            <button type="submit" id="btnEntrar">Entrar</button>
         </form>
+        <p style="margin-top: 15px; font-size: 13px;">
+            ¿No tienes cuenta? <a href="#" onclick="mostrarRegistro()" style="color: #ff69b4; font-weight: bold;">Regístrate aquí</a>
+        </p>
     </div>
 
+    <div id="seccion-registro" style="display: none;">
+        <h2>Crear Cuenta</h2>
+        <form id="regForm">
+            <div class="field">
+                <label>Nuevo Usuario</label>
+                <input type="text" id="regUser" required>
+            </div>
+            <div class="field">
+                <label>Contraseña</label>
+                <input type="password" id="regPass" required>
+            </div>
+            <button type="submit" id="btnCrear" style="background-color: #87ceeb;">Registrarse</button>
+        </form>
+        <p style="margin-top: 15px; font-size: 13px;">
+            ¿Ya tienes cuenta? <a href="#" onclick="mostrarLogin()" style="color: #ff69b4; font-weight: bold;">Inicia sesión</a>
+        </p>
+    </div>
+
+    <div id="mensaje" class="status-msg"></div>
+</div>
     <a href="https://wa.me/573113330182" class="btn-wa" target="_blank">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:100%">
     </a>
@@ -137,48 +159,79 @@
             pass.type = (pass.type === 'password') ? 'text' : 'password';
         };
 
-        form.onsubmit = function(e) {
-            e.preventDefault();
-            
-            btn.disabled = true;
-            btn.innerText = "Procesando...";
-            msg.style.display = "none";
+        // 1. LÓGICA PARA INICIAR SESIÓN (Botón Entrar)
+document.getElementById('loginForm').onsubmit = function(e) {
+    e.preventDefault();
+    const user = document.getElementById('logUser').value;
+    const pass = document.getElementById('logPass').value;
+    const btn = document.getElementById('btnEntrar');
+    const msg = document.getElementById('mensaje');
 
-            // Enviamos los datos a Google
-            fetch(scriptURL, { method: 'POST', body: new FormData(form) })
-            .then(response => response.json()) // Leemos la respuesta JSON corregida
-            .then(data => {
-                // Verificamos si es un administrador
-                const esMrJose = (user.value === 'MrJose' && pass.value === '14062020DAYANA');
-                const esDayana = (user.value === 'DayanaJRM' && pass.value === 'Potomac2026');
+    btn.disabled = true;
+    btn.innerText = "Verificando...";
 
-                msg.style.display = "block";
+    // Consultamos al Excel si el usuario existe (GET)
+    fetch(scriptURL + "?Usuario=" + encodeURIComponent(user) + "&Password=" + encodeURIComponent(pass))
+    .then(response => response.json())
+    .then(data => {
+        if (data.result === "success") {
+            msg.style.display = "block";
+            msg.style.color = "blue";
+            msg.innerText = "¡Hola " + user + "! Entrando...";
+            setTimeout(() => { window.location.href = 'menu.html'; }, 1500);
+        } else {
+            alert("Usuario o contraseña incorrectos");
+            btn.disabled = false;
+            btn.innerText = "Entrar";
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        btn.disabled = false;
+        btn.innerText = "Entrar";
+    });
+};
 
-                if (esMrJose || esDayana) {
-                    msg.style.color = "blue";
-                    msg.style.backgroundColor = "#e7f3ff";
-                    msg.innerText = "¡Hola " + user.value + "! Entrando al panel...";
-                    setTimeout(() => { window.location.href = 'menu.html'; }, 1500);
-                } else {
-                    // Si no es admin, solo confirma el registro
-                    msg.style.color = "green";
-                    msg.style.backgroundColor = "#e7ffe7";
-                    msg.innerText = "✨ ¡Datos guardados con éxito!";
-                    form.reset();
-                    btn.disabled = false;
-                    btn.innerText = "Registrar / Entrar";
-                }
-            })
-            .catch(error => {
-                console.error("Error:", error);
-                msg.style.display = "block";
-                msg.style.color = "red";
-                msg.style.backgroundColor = "#ffe7e7";
-                msg.innerText = "Error de conexión. Revisa el Wi-Fi.";
-                btn.disabled = false;
-                btn.innerText = "Registrar / Entrar";
-            });
-        };
+// 2. LÓGICA PARA REGISTRARSE (Botón Registrarse)
+document.getElementById('regForm').onsubmit = function(e) {
+    e.preventDefault();
+    const user = document.getElementById('regUser').value;
+    const pass = document.getElementById('regPass').value;
+    const btn = document.getElementById('btnCrear');
+
+    btn.disabled = true;
+    btn.innerText = "Guardando...";
+
+    // Enviamos los datos para crear nueva fila (POST)
+    let formData = new FormData();
+    formData.append("Usuario", user);
+    formData.append("Password", pass);
+
+    fetch(scriptURL, { method: 'POST', body: formData })
+    .then(response => response.json())
+    .then(data => {
+        alert("✨ ¡Cuenta creada con éxito! Ahora ya puedes iniciar sesión.");
+        mostrarLogin(); // Esta función oculta el registro y muestra el login
+        btn.disabled = false;
+        btn.innerText = "Registrarse";
+    })
+    .catch(error => {
+        alert("Error al registrar: " + error);
+        btn.disabled = false;
+        btn.innerText = "Registrarse";
+    });
+};
+
+// Funciones para cambiar de vista (IMPORTANTE)
+function mostrarRegistro() {
+    document.getElementById('seccion-login').style.display = 'none';
+    document.getElementById('seccion-registro').style.display = 'block';
+}
+
+function mostrarLogin() {
+    document.getElementById('seccion-registro').style.display = 'none';
+    document.getElementById('seccion-login').style.display = 'block';
+}
     </script>
 </body>
 </html>

@@ -140,6 +140,7 @@
 
     <div id="mensaje" class="status-msg"></div>
 </div>
+    
     <a href="https://wa.me/573113330182" class="btn-wa" target="_blank">
         <img src="https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg" style="width:100%">
     </a>
@@ -165,13 +166,25 @@
             .then(response => response.json())
             .then(data => {
                 if (data.result === "success") {
-                    alert("¡Bienvenido " + user + "!");
-                    window.location.href = 'menu.html';
-                } else {
-                    alert("Usuario o contraseña incorrectos");
-                    btn.disabled = false;
-                    btn.innerText = "Entrar";
-                }
+            const msg = document.getElementById('mensaje'); // El ID de la línea 141
+            msg.innerText = "¡Bienvenido " + user + "! Entrando...";
+            msg.style.display = "block";
+            msg.style.color = "#00ff00"; // Verde
+            msg.style.textAlign = "center";
+
+            setTimeout(() => { 
+                window.location.href = 'menu.html'; 
+            }, 1500);
+        } else {
+            const msg = document.getElementById('mensaje');
+            msg.innerText = "❌ Usuario o contraseña incorrectos";
+            msg.style.display = "block";
+            msg.style.color = "#ff4d4d"; // Rojo
+            msg.style.textAlign = "center";
+            
+            btn.disabled = false;
+            btn.innerText = "Entrar";
+        }
             })
             .catch(error => {
                 console.error("Error:", error);
